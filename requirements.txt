@@ -1,1 +1,3 @@
 numpy==1.24.3
+spark-submit==1.4.0
+pyspark==3.3.2
