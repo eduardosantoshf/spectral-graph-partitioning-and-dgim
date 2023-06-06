@@ -9,7 +9,7 @@ if __name__ == "__main__":
     interval = 1
     last_timestamp = ""
     # File to read
-    in_filename = "../../data/stream-data.csv"
+    in_filename = "../../../data/stream-data.csv"
     # Socket comms
     out_address = "localhost"
     out_port = 9999
