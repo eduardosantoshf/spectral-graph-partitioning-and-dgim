@@ -1,11 +1,13 @@
 import sys
 import socket
 import random
+import sys
 import time
 
 if __name__ == "__main__":
+    N = int(sys.argv[1]) # size of the generated stream
     # Initialization of the variables
-    probability_1 = 0.5
+    probability_1 = 0.2
     # Socket comms
     out_address = "localhost"
     out_port = 9999
@@ -29,8 +31,8 @@ if __name__ == "__main__":
             
             count += 1
 
-            #if count >= 1001:
-            #    break
+            if count > N:
+                break
 
  # Catch the KeyboardInterrupt to stop stream generation gracefully
     except KeyboardInterrupt:
@@ -39,3 +41,6 @@ if __name__ == "__main__":
         c.close()
         s.close()
         sys.exit(1)
+
+    c.close()
+    s.close()
