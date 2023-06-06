@@ -15,7 +15,7 @@ if __name__ == "__main__":
     out_port = 9999
     s = socket.socket()
     s.bind((out_address, out_port))
-    s.listen(1)
+    s.listen(1) # inspect stream at 1 second intervals
     c, addr = s.accept()
 
     # Processing of the CSV
