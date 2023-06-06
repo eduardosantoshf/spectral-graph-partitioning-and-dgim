@@ -1,12 +1,12 @@
 import networkx as nx
 from scipy.sparse.linalg import eigsh
 import numpy as np
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, SpectralClustering
 import matplotlib.pyplot as plt
 import argparse
 
 
-def main(option_data, option_eigengap):
+def main(option_data, option_eigengap, option_type):
     ######################### PATH TO FACEBOOK DATA ######################### 
 
     if option_data == 0:
@@ -66,20 +66,31 @@ def main(option_data, option_eigengap):
     ####################### Low Rank Representation #########################
 
     # values to cluster
-    U = eigen_vectors[:, :11]
+    U = eigen_vectors[:, :n_clusters]
 
-    # cluster using KMeans
-    k_means = KMeans(n_clusters=n_clusters, n_init='auto', random_state=0).fit(U)
-    labels = k_means.labels_
+    if option_type == 0:
+        # cluster using KMeans
+        k_means = KMeans(n_clusters=n_clusters, n_init='auto', random_state=0).fit(U)
+        labels = k_means.labels_
+
+    elif option_type == 1:
+        sc = SpectralClustering(n_clusters=n_clusters, affinity='nearest_neighbors', random_state=0).fit(U)
+        labels = sc.labels_
 
     # draw full graph
     nx.draw(G, with_labels=True, node_color=labels)
     plt.show()
 
+        
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data', help='0 - facebook, 1 - phenomenology, 2 - protein', type=int, default=0)
-    parser.add_argument('--eigengap', help='0 - clustering, 1 eigengaps', type=int, default=0)
+    parser.add_argument('--eigengap', help='0 - clustering, 1 - eigengaps', type=int, default=0)
+    parser.add_argument('--type', help='0 - low rank, 1 - scikit-learn, 2 - spark power', type=int, default=0)
+
+    
+
     args = parser.parse_args()
-    main(args.data, args.eigengap)
+    main(args.data, args.eigengap, args.type)
